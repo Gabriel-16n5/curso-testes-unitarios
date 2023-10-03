@@ -1,6 +1,7 @@
 import supertest from "supertest";
 import app from "../../src/app";
 import { MathBody } from "../../src/validator";
+import { faker } from '@faker-js/faker';
 
 const api = supertest(app);
 
@@ -28,48 +29,49 @@ describe("calculator tests", () => {
   it("should sum two numbers", async () => {
     const mathBody: MathBody = {
       operation: "sum",
-      n1: 2,
-      n2: 2
+      n1: faker.number.int(),
+      n2: faker.number.int()
     };
 
     const { status, body } = await api.post("/math").send(mathBody);
     expect(status).toBe(200);
-    expect(body.result).toBe(4);
+    expect(body.result).toBe(mathBody.n1+mathBody.n2);
   });
 
   it("should subtract two numbers", async () => {
     const mathBody: MathBody = {
       operation: "sub",
-      n1: 2,
-      n2: 2
+      n1: faker.number.int(),
+      n2: faker.number.int()
     };
 
     const { status, body } = await api.post("/math").send(mathBody);
     expect(status).toBe(200);
-    expect(body.result).toBe(0);
+    expect(body.result).toBe(mathBody.n1-mathBody.n2);
   });
+
   it("should multiply two numbers", async () => {
     const mathBody: MathBody = {
       operation: "mul",
-      n1: 3,
-      n2: 3
+      n1: faker.number.int(),
+      n2: faker.number.int()
     };
 
     const { status, body } = await api.post("/math").send(mathBody);
     expect(status).toBe(200);
-    expect(body.result).toBe(9);
+    expect(body.result).toBe(mathBody.n1*mathBody.n2);
   });
 
   it("should divide two numbers", async () => {
     const mathBody: MathBody = {
       operation: "div",
-      n1: 2,
-      n2: 2
+      n1: faker.number.int(),
+      n2: faker.number.int()
     };
 
     const { status, body } = await api.post("/math").send(mathBody);
     expect(status).toBe(200);
-    expect(body.result).toBe(1);
+    expect(body.result).toBe(mathBody.n1/mathBody.n2);
   });
 
   it("should return 0 when diving by zero", async () => {
