@@ -1,3 +1,10 @@
 Aprendendo a fazer tests unitários
 Criar a pasta unit dentro da pasta de tests
 Dentro da pasta de unit criar um arquivo para testar as coisas da service, o nome fica, nomeDaService.test.ts
+É basicamente oq fazemos no de integração, mas aqui, não usaremos o supertest/banco de dados, a ideia é testar as pequenas regras de negócios que tem dentro das services
+Também, não iremos usar nada externo, por exemplo biblitecas, para isso vamos simular elas com mocks
+Meio difícil de entender como mockar, pois, tu vai usar a função normalmente com a biblioteca externa, mas dentro do teste unitário tu vai criar o mock, ele vai rodar a biblioteca usando seu mock sozinho, e fazer o mock de cada biblioteca vai ser algo complicado.
+Agora usaremos spyOn, que é basicamente o mock, mas pegamos principalmente funções de nossa api e usamos apenas as partes que queremos, podemos optar por usar para todas ou apenas para uma com o .mockImplementationOnce.
+É muito interessante pois, conseguimos espicar dentro de uma função e chamar ela com os dados que queremos, sem precisar sair do bloco de código e sem fazer requisição para o banco de dados.
+também podemos simular as exceções para testar os casos de erros emitidos pelos throws, como da para ver nesse repo, simulamos por exemplo um retorno falho de um get usando spyOn, retornando undefined, e no expect colocamos o .rejects.toEqual ai conseguimos validar as menssagens de erros do throws e o type do erro.
+Considerações finais, as vezes alguns testes unitários simplesmente ficam gigantes ou demandam simplesmente muito tempo para construir porque ele depende de várias funções ou requisições para o banco de dados, para mockar tudo isso e fazer os testes da forma correta, simplesmente leval muito tempo, então tem que colocar na balança o custo disso, as vezes é melhor implementar eles já junto com algum teste de integração, pois os dados estarão lá, ou só usar funções externas mesmo e economizar tempo de código em detrimento de quálidade/boas práticas.
